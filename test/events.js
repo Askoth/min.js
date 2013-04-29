@@ -6,12 +6,6 @@ describe('events', function () {
 
   beforeEach(function () {
     spy = jasmine.createSpy();
-
-    this.addMatchers({
-        toHaveData: function(match) {
-            return this.data.toBe(match);
-        }
-    });
   })
 
   afterEach(function () {
