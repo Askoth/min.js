@@ -6,6 +6,12 @@ describe('events', function () {
 
   beforeEach(function () {
     spy = jasmine.createSpy();
+
+    this.addMatchers({
+        toHaveData: function(match) {
+            return this.data.toBe(match);
+        }
+    });
   })
 
   afterEach(function () {
@@ -34,6 +40,17 @@ describe('events', function () {
     $.on('event', spy);
 
     $.trigger('event');
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should pass all arguments', function () {
+
+    $.on('event', spy);
+
+    $.trigger('event', 0, 1, 2, 3, 4);
+
+    expect(spy.mostRecentCall.args[0].data[4]).toBe(4);
 
     expect(spy).toHaveBeenCalled();
   });

@@ -3,8 +3,10 @@ $ = (function (document, $) {
   var element = Element.prototype,
       nodeList = NodeList.prototype,
       forEach = 'forEach',
+      arrSlice = 'slice',
       trigger = 'trigger',
       each = [][forEach],
+      slice = [][arrSlice],
       dummy = document.createElement();
 
   nodeList[forEach] = each;
@@ -24,7 +26,7 @@ $ = (function (document, $) {
   element.trigger = function (type, data) {
     var event = document.createEvent('HTMLEvents');
     event.initEvent(type, true, true);
-    event.data = data || {};
+    event.data = slice.call(arguments, 1) || {};
     event.eventName = type;
     event.target = this;
     this.dispatchEvent(event);
@@ -33,7 +35,7 @@ $ = (function (document, $) {
 
   nodeList.trigger = function (event) {
     each.call(this, function (el) {
-      el[trigger](event);
+      el[trigger](arguments);
     });
     return this;
   };
